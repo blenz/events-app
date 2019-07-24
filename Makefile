@@ -7,4 +7,4 @@ run-dev:
 	@docker run --rm -it -v `pwd`:/app -p 3000:3000 $(APP_DEV_NAME)
 
 stop-dev:
-	docker stop $(APP_DEV_NAME)
+	@docker stop $(APP_DEV_NAME)
