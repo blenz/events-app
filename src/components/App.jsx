@@ -9,6 +9,7 @@ import PeopleDashboard from './user/PeopleDashboard';
 import UserDetailed from './user/UserDetailed/UserDetailed';
 import SettingsDashboard from './user/Settings/SettingsDashboard';
 import EventForm from './events/EventForm/EventForm';
+import TestComponent from './testarea/TestComponent';
 
 class App extends Component {
   render() {
@@ -27,6 +28,7 @@ class App extends Component {
                 <Route path="/profile/:id" component={UserDetailed} />
                 <Route path="/settings" component={SettingsDashboard} />
                 <Route path="/createEvent" component={EventForm} />
+                <Route path="/test" component={TestComponent} />
               </Container>
             </Fragment>
           )}
