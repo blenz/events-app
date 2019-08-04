@@ -49,6 +49,8 @@ class EventForm extends Component {
   };
 
   onFormSubmit = values => {
+    values.venueLatLng = this.state.venueLatLng;
+
     // updating event
     if (this.props.initialValues.id) {
       this.props.updateEvent(values);
@@ -58,12 +60,12 @@ class EventForm extends Component {
 
     // creating a new event
     const newEvent = {
-      ...values,
       id: cuid(),
       hostPhotoURL: '/assets/user.png',
-      hostedBy: 'Bib'
+      hostedBy: 'Bib',
+      ...values
     };
-    newEvent.id = cuid();
+
     this.props.createEvent(newEvent);
     this.props.history.push(`/events/${newEvent.id}`);
   };
