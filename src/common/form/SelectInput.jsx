@@ -15,7 +15,11 @@ const SelectInput = ({
         placeholder={placeholder}
         options={options}
       />
-      {touched && error && <Label color="red">{error}</Label>}
+      {touched && error && (
+        <Label basic pointing color="red">
+          {error}
+        </Label>
+      )}
     </Form.Field>
   );
 };

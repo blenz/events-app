@@ -20,8 +20,9 @@ const DateInput = ({
         onBlur={input.onBlur}
         onChangeRaw={e => e.preventDefault()}
       />
+      <br />
       {touched && error && (
-        <Label basic color="red">
+        <Label basic pointing color="red">
           {error}
         </Label>
       )}
