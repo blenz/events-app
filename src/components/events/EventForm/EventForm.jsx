@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
+import { Segment, Form, Button, Grid, Header } from 'semantic-ui-react';
+import { createEvent, updateEvent } from '../../../actions/eventActions';
 import {
   composeValidators,
   combineValidators,
   isRequired,
   hasLengthGreaterThan
 } from 'revalidate';
-import { reduxForm, Field } from 'redux-form';
-import { Segment, Form, Button, Grid, Header } from 'semantic-ui-react';
-import cuid from 'cuid';
-import { createEvent, updateEvent } from '../../../actions/eventActions';
 import TextInput from '../../../common/form/TextInput';
 import SelectInput from '../../../common/form/SelectInput';
 import DateInput from '../../../common/form/DateInput';
 import TextArea from '../../../common/form/TextArea';
+import cuid from 'cuid';
 
 const category = [
   { key: 'drinks', text: 'Drinks', value: 'drinks' },
@@ -38,41 +38,25 @@ const validate = combineValidators({
   date: isRequired('Date')
 });
 
-const mapState = (state, ownProps) => {
-  const eventId = ownProps.match.params.id;
-
-  let event = {};
-
-  if (eventId && state.events.length > 0) {
-    event = state.events.filter(event => event.id === eventId)[0];
-  }
-
-  return {
-    initialValues: event
-  };
-};
-
-const actions = {
-  createEvent,
-  updateEvent
-};
-
 class EventForm extends Component {
   onFormSubmit = values => {
+    // updating event
     if (this.props.initialValues.id) {
       this.props.updateEvent(values);
       this.props.history.push(`/events/${this.props.initialValues.id}`);
-    } else {
-      const newEvent = {
-        ...values,
-        id: cuid(),
-        hostPhotoURL: '/assets/user.png',
-        hostedBy: 'Bib'
-      };
-      newEvent.id = cuid();
-      this.props.createEvent(newEvent);
-      this.props.history.push(`/events/${newEvent.id}`);
+      return;
     }
+
+    // creating a new event
+    const newEvent = {
+      ...values,
+      id: cuid(),
+      hostPhotoURL: '/assets/user.png',
+      hostedBy: 'Bib'
+    };
+    newEvent.id = cuid();
+    this.props.createEvent(newEvent);
+    this.props.history.push(`/events/${newEvent.id}`);
   };
 
   render() {
@@ -155,7 +139,24 @@ class EventForm extends Component {
   }
 }
 
+const mapState = (state, ownProps) => {
+  const eventId = ownProps.match.params.id;
+
+  let event = {};
+
+  if (eventId && state.events.length > 0) {
+    event = state.events.filter(event => event.id === eventId)[0];
+  }
+
+  return {
+    initialValues: event
+  };
+};
+
 export default connect(
   mapState,
-  actions
+  {
+    createEvent,
+    updateEvent
+  }
 )(reduxForm({ form: 'eventForm', validate })(EventForm));
