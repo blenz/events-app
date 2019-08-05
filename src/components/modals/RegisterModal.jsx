@@ -5,13 +5,11 @@ import { connect } from 'react-redux';
 import { closeModal } from '../../actions/modalActions';
 import RegisterForm from '../auth/Register/RegisterForm';
 
-const actions = { closeModal };
-
 class RegisterModal extends Component {
   render() {
     return (
       <Modal size='mini' open={true} onClose={this.props.closeModal}>
-        <Modal.Header>Sign Up to Re-vents!</Modal.Header>
+        <Modal.Header>Sign Up</Modal.Header>
         <Modal.Content>
           <Modal.Description>
             <RegisterForm />
@@ -24,5 +22,5 @@ class RegisterModal extends Component {
 
 export default connect(
   null,
-  actions
+  { closeModal }
 )(RegisterModal);

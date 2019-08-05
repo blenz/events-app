@@ -5,13 +5,11 @@ import { connect } from 'react-redux';
 import LoginForm from '../auth/Login/LoginForm';
 import { closeModal } from '../../actions/modalActions';
 
-const actions = { closeModal };
-
 class LoginModal extends Component {
   render() {
     return (
       <Modal size='mini' open={true} onClose={this.props.closeModal}>
-        <Modal.Header>Login to Re-vents</Modal.Header>
+        <Modal.Header>Login</Modal.Header>
         <Modal.Content>
           <Modal.Description>
             <LoginForm />
@@ -24,5 +22,5 @@ class LoginModal extends Component {
 
 export default connect(
   null,
-  actions
+  { closeModal }
 )(LoginModal);
