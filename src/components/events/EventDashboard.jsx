@@ -1,22 +1,12 @@
 import React, { Component } from 'react';
 import { Grid } from 'semantic-ui-react';
-import EventList from './EventList/EventList';
 import { connect } from 'react-redux';
 import {
   createEvent,
   updateEvent,
   deleteEvent
 } from '../../actions/eventActions';
-
-const mapState = state => ({
-  events: state.events
-});
-
-const actions = {
-  createEvent,
-  updateEvent,
-  deleteEvent
-};
+import EventList from './EventList/EventList';
 
 class EventDashboard extends Component {
   handleDeleteEvent = deletedId => {
@@ -38,7 +28,15 @@ class EventDashboard extends Component {
   }
 }
 
+const mapState = state => ({
+  events: state.events
+});
+
 export default connect(
   mapState,
-  actions
+  {
+    createEvent,
+    updateEvent,
+    deleteEvent
+  }
 )(EventDashboard);
