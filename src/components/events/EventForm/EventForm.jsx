@@ -96,41 +96,41 @@ class EventForm extends Component {
       <Grid>
         <Grid.Column width={10}>
           <Segment>
-            <Header sub color="teal" content="Event Details" />
+            <Header sub color='teal' content='Event Details' />
             <Form
               onSubmit={this.props.handleSubmit(this.onFormSubmit)}
-              autoComplete="off"
+              autoComplete='off'
             >
               <Field
-                name="title"
+                name='title'
                 component={TextInput}
-                placeholder="Event Title"
+                placeholder='Event Title'
               />
               <Field
-                name="category"
+                name='category'
                 component={SelectInput}
-                placeholder="Event Category"
+                placeholder='Event Category'
                 options={category}
                 multiple={true}
               />
               <Field
-                name="description"
+                name='description'
                 component={TextArea}
                 rows={3}
-                placeholder="Event Description"
+                placeholder='Event Description'
               />
-              <Header sub color="teal" content="Event Location Details" />
+              <Header sub color='teal' content='Event Location Details' />
               <Field
-                name="city"
+                name='city'
                 component={PlaceInput}
-                placeholder="Event City"
+                placeholder='Event City'
                 onSelect={this.handleCitySelect}
                 options={{ types: ['(cities)'] }}
               />
               <Field
-                name="venue"
+                name='venue'
                 component={PlaceInput}
-                placeholder="Event Venue"
+                placeholder='Event Venue'
                 onSelect={this.handleVenueSelect}
                 options={{
                   location: new google.maps.LatLng(this.state.cityLatLng),
@@ -139,18 +139,18 @@ class EventForm extends Component {
                 }}
               />
               <Field
-                name="date"
+                name='date'
                 component={DateInput}
-                dateFormat="dd LLL yyyy h:mm a"
+                dateFormat='dd LLL yyyy h:mm a'
                 showTimeSelect
-                timeFormat="h:mm"
-                placeholder="Event Date"
+                timeFormat='h:mm'
+                placeholder='Event Date'
               />
 
               <Button
                 disabled={invalid || submitting || pristine}
                 positive
-                type="submit"
+                type='submit'
               >
                 Submit
               </Button>
@@ -160,7 +160,7 @@ class EventForm extends Component {
                     ? () => history.push(`/events/${initialValues.id}`)
                     : () => history.push('/events')
                 }
-                type="button"
+                type='button'
               >
                 Cancel
               </Button>

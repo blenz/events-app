@@ -11,9 +11,9 @@ class EventListItem extends Component {
         <Segment>
           <Item.Group>
             <Item>
-              <Item.Image size="tiny" circular src={event.hostPhotoURL} />
+              <Item.Image size='tiny' circular src={event.hostPhotoURL} />
               <Item.Content>
-                <Item.Header as="a">{event.title}</Item.Header>
+                <Item.Header as='a'>{event.title}</Item.Header>
                 <Item.Description>Hosted by {event.hostedBy}</Item.Description>
               </Item.Content>
             </Item>
@@ -21,8 +21,8 @@ class EventListItem extends Component {
         </Segment>
         <Segment>
           <span>
-            <Icon name="clock" /> {event.date} |
-            <Icon name="marker" /> {event.venue}
+            <Icon name='clock' /> {event.date} |
+            <Icon name='marker' /> {event.venue}
           </span>
         </Segment>
         <Segment secondary>
@@ -38,16 +38,16 @@ class EventListItem extends Component {
           <Button
             as={Link}
             to={`/events/${event.id}`}
-            color="teal"
-            floated="right"
-            content="View"
+            color='teal'
+            floated='right'
+            content='View'
           />
           <Button
             onClick={() => deleteEvent(event.id)}
-            as="a"
-            color="red"
-            floated="right"
-            content="Delete"
+            as='a'
+            color='red'
+            floated='right'
+            content='Delete'
           />
         </Segment>
       </Segment.Group>

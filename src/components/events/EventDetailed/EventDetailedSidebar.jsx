@@ -6,12 +6,12 @@ const EventDetailedSidebar = ({ attendees }) => {
   return (
     <Fragment>
       <Segment
-        textAlign="center"
+        textAlign='center'
         style={{ border: 'none' }}
-        attached="top"
+        attached='top'
         secondary
         inverted
-        color="teal"
+        color='teal'
       >
         {attendees &&
           `${attendees.length} ${
@@ -26,16 +26,16 @@ const EventDetailedSidebar = ({ attendees }) => {
                 {isHost && (
                   <Label
                     style={{ position: 'absolute' }}
-                    color="orange"
-                    ribbon="right"
+                    color='orange'
+                    ribbon='right'
                   >
                     Host
                   </Label>
                 )}
-                <Item.Image size="tiny" src={attendee.photoURL} />
-                <Item.Content verticalAlign="middle">
-                  <Item.Header as="h3">
-                    <a href="/">{attendee.name}</a>
+                <Item.Image size='tiny' src={attendee.photoURL} />
+                <Item.Content verticalAlign='middle'>
+                  <Item.Header as='h3'>
+                    <a href='/'>{attendee.name}</a>
                   </Item.Header>
                 </Item.Content>
               </Item>

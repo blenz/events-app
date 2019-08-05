@@ -17,23 +17,23 @@ class Navbar extends Component {
   render() {
     const { authenticated } = this.state;
     return (
-      <Menu inverted fixed="top">
+      <Menu inverted fixed='top'>
         <Container>
-          <Menu.Item as={NavLink} exact to="/" header>
-            <img src="/assets/logo.png" alt="logo" />
+          <Menu.Item as={NavLink} exact to='/' header>
+            <img src='/assets/logo.png' alt='logo' />
             Re-events
           </Menu.Item>
-          <Menu.Item as={NavLink} exact to="/events" name="Events" />
-          <Menu.Item as={NavLink} to="/people" name="People" />
-          <Menu.Item as={NavLink} to="/test" name="Test" />
-          <Menu.Item name="Events">
+          <Menu.Item as={NavLink} exact to='/events' name='Events' />
+          <Menu.Item as={NavLink} to='/people' name='People' />
+          <Menu.Item as={NavLink} to='/test' name='Test' />
+          <Menu.Item name='Events'>
             <Button
               as={Link}
-              to="/createEvent"
-              floated="right"
+              to='/createEvent'
+              floated='right'
               positive
               inverted
-              content="Create Event"
+              content='Create Event'
             />
           </Menu.Item>
           {authenticated ? (
