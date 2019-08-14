@@ -4,14 +4,23 @@ import App from './components/App';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import { devToolsEnhancer } from 'redux-devtools-extension';
+import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 import rootReducer from './reducers/rootReducer';
 import ScrollToTop from './common/util/ScrollToTop';
+import { loadEvent } from './actions/eventActions';
 
-const store = createStore(rootReducer, devToolsEnhancer());
+const middlewares = [thunk];
+
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(...middlewares))
+);
+
+store.dispatch(loadEvent());
 
 ReactDOM.render(
   <Provider store={store}>
