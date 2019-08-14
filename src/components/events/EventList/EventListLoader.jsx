@@ -1,7 +1,7 @@
 import React from 'react';
 import { Segment, Image } from 'semantic-ui-react';
 
-const EventLoader = () => {
+const EventListLoader = () => {
   return Array(2)
     .fill(null)
     .map((_, i) => (
@@ -17,4 +17,4 @@ const EventLoader = () => {
     ));
 };
 
-export default EventLoader;
+export default EventListLoader;

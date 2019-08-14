@@ -7,7 +7,6 @@ import {
   deleteEvent
 } from '../../actions/eventActions';
 import EventList from './EventList/EventList';
-import EventLoader from './EventList/EventLoader';
 
 class EventDashboard extends Component {
   handleDeleteEvent = deletedId => {
@@ -15,16 +14,12 @@ class EventDashboard extends Component {
   };
 
   render() {
-    const { events, loading } = this.props;
+    const { events } = this.props;
 
     return (
       <Grid>
         <Grid.Column width={10}>
-          {loading ? (
-            <EventLoader />
-          ) : (
-            <EventList events={events} deleteEvent={this.handleDeleteEvent} />
-          )}
+          <EventList events={events} deleteEvent={this.handleDeleteEvent} />
         </Grid.Column>
         <Grid.Column width={6}>
           <h2>Activity Feed</h2>
@@ -35,8 +30,7 @@ class EventDashboard extends Component {
 }
 
 const mapState = state => ({
-  events: state.events,
-  loading: state.async.loading
+  events: state.events
 });
 
 export default connect(
