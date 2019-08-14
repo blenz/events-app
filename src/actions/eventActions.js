@@ -40,7 +40,7 @@ export const updateEvent = event => {
 
       toastr.success('Success', 'Event updated');
     } catch (error) {
-      toastr.error('Oops', 'Error creating event');
+      toastr.error('Oops', 'Error updating event');
     }
   };
 };
