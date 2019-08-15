@@ -7,6 +7,7 @@ import {
   deleteEvent
 } from '../../actions/eventActions';
 import EventList from './EventList/EventList';
+import EventActivity from './EventActivity/EventActivity';
 
 class EventDashboard extends Component {
   handleDeleteEvent = deletedId => {
@@ -22,7 +23,7 @@ class EventDashboard extends Component {
           <EventList events={events} deleteEvent={this.handleDeleteEvent} />
         </Grid.Column>
         <Grid.Column width={6}>
-          <h2>Activity Feed</h2>
+          <EventActivity />
         </Grid.Column>
       </Grid>
     );
