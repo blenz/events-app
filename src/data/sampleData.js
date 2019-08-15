@@ -26,7 +26,7 @@ const sampleData = [
         photoURL: 'https://randomuser.me/api/portraits/men/22.jpg'
       }
     ]
-  }
+  },
   {
     id: '2',
     title: 'Trip to Punch and Judy Pub',
