@@ -1,19 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
-import './index.css';
-import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 import * as serviceWorker from './serviceWorker';
+import ScrollToTop from './common/util/ScrollToTop';
+
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
+import './index.css';
+
 import { BrowserRouter } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import thunk from 'redux-thunk';
 
 import rootReducer from './reducers';
-import ScrollToTop from './common/util/ScrollToTop';
-import { loadEvent } from './actions/eventActions';
 import ReduxToastr from 'react-redux-toastr';
+
+import { loadEvent } from './actions/eventActions';
 
 const middlewares = [thunk];
 
