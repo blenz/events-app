@@ -10,7 +10,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-import rootReducer from './reducers/rootReducer';
+import rootReducer from './reducers';
 import ScrollToTop from './common/util/ScrollToTop';
 import { loadEvent } from './actions/eventActions';
 import ReduxToastr from 'react-redux-toastr';
