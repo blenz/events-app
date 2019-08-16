@@ -21,8 +21,6 @@ import thunk from 'redux-thunk';
 import rootReducer from './reducers';
 import ReduxToastr from 'react-redux-toastr';
 
-import { loadEvent } from './actions/eventActions';
-
 const reactReduxFirebaseConfig = {
   userProfile: 'users',
   attachAuthIsReady: true,
@@ -39,10 +37,6 @@ const store = createStore(
     reduxFirestore(firebase)
   )
 );
-
-console.log(process.env);
-
-store.dispatch(loadEvent());
 
 ReactDOM.render(
   <Provider store={store}>

@@ -11,6 +11,7 @@ class EventList extends Component {
         {loading ? (
           <EventListLoader />
         ) : (
+          events &&
           events.map(event => (
             <EventListItem
               key={event.id}

@@ -8,6 +8,7 @@ import {
 } from '../../actions/eventActions';
 import EventList from './EventList/EventList';
 import EventActivity from './EventActivity/EventActivity';
+import { firestoreConnect } from 'react-redux-firebase';
 
 class EventDashboard extends Component {
   handleDeleteEvent = deletedId => {
@@ -31,7 +32,7 @@ class EventDashboard extends Component {
 }
 
 const mapState = state => ({
-  events: state.events
+  events: state.firestore.ordered.events
 });
 
 export default connect(
@@ -41,4 +42,4 @@ export default connect(
     updateEvent,
     deleteEvent
   }
-)(EventDashboard);
+)(firestoreConnect([{ collection: 'events' }])(EventDashboard));
