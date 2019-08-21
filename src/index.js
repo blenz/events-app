@@ -24,7 +24,8 @@ import ReduxToastr from 'react-redux-toastr';
 const reactReduxFirebaseConfig = {
   userProfile: 'users',
   attachAuthIsReady: true,
-  useFireStoreForProfile: true
+  useFirestoreForProfile: true,
+  updateProfileOnLogin: false
 };
 
 const middlewares = [thunk.withExtraArgument({ getFirebase, getFirestore })];
