@@ -16,7 +16,7 @@ class Navbar extends Component {
   };
 
   render() {
-    const { auth } = this.props;
+    const { auth, profile } = this.props;
     const authenticated = auth.isLoaded && !auth.isEmpty;
 
     return (
@@ -40,7 +40,7 @@ class Navbar extends Component {
             />
           </Menu.Item>
           {authenticated ? (
-            <SignedInMenu signOut={this.handleSignOut} auth={auth} />
+            <SignedInMenu profile={profile} signOut={this.handleSignOut} />
           ) : (
             <SignedOutMenu
               signIn={this.handleSignIn}
@@ -54,7 +54,8 @@ class Navbar extends Component {
 }
 
 const mapState = state => ({
-  auth: state.firebase.auth
+  auth: state.firebase.auth,
+  profile: state.firebase.profile
 });
 
 export default connect(
