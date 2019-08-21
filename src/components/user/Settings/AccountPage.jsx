@@ -16,7 +16,6 @@ import {
   composeValidators
 } from 'revalidate';
 import TextInput from '../../../common/form/TextInput';
-import { Link } from 'react-router-dom';
 
 const validate = combineValidators({
   newPassword1: isRequired({ message: 'Please enter a password' }),
