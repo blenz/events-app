@@ -3,9 +3,6 @@ import { closeModal } from './modalActions';
 import { SubmissionError, reset } from 'redux-form';
 import { toastr } from 'react-redux-toastr';
 
-export const LOGIN_USER = 'LOGIN_USER';
-export const LOGOUT_USER = 'LOGOUT_USER';
-
 export const login = creds => {
   return async (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
