@@ -5,18 +5,20 @@ const SelectInput = ({
   input,
   options,
   placeholder,
+  multiple,
   meta: { touched, error }
 }) => {
   return (
     <Form.Field error={touched && !!error}>
       <Select
-        value={input.value || null}
+        value={input.value ? input.value : []}
         onChange={(e, data) => input.onChange(data.value)}
         placeholder={placeholder}
         options={options}
+        multiple={multiple}
       />
       {touched && error && (
-        <Label basic pointing color="red">
+        <Label basic pointing color='red'>
           {error}
         </Label>
       )}

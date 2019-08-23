@@ -6,7 +6,7 @@ const TextInput = ({ input, type, placeholder, meta: { touched, error } }) => {
     <Form.Field error={touched && !!error}>
       <input {...input} placeholder={placeholder} type={type} />
       {touched && error && (
-        <Label basic pointing color="red">
+        <Label basic pointing color='red'>
           {error}
         </Label>
       )}
