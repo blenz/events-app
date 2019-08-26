@@ -39,20 +39,23 @@ const store = createStore(
   )
 );
 
-ReactDOM.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <ScrollToTop>
-        <ReduxToastr
-          position='bottom-right'
-          transitionIn='fadeIn'
-          transitionOut='fadeOut'
-        />
-        <App />
-      </ScrollToTop>
-    </BrowserRouter>
-  </Provider>,
-  document.getElementById('root')
-);
+const render = () => {
+  ReactDOM.render(
+    <Provider store={store}>
+      <BrowserRouter>
+        <ScrollToTop>
+          <ReduxToastr
+            position='bottom-right'
+            transitionIn='fadeIn'
+            transitionOut='fadeOut'
+          />
+          <App />
+        </ScrollToTop>
+      </BrowserRouter>
+    </Provider>,
+    document.getElementById('root')
+  );
+};
+store.firebaseAuthIsReady.then(() => render());
 
 serviceWorker.unregister();

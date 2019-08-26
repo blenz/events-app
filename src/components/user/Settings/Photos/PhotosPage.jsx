@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { firestoreConnect } from 'react-redux-firebase';
 import {
   Image,
   Segment,
@@ -10,10 +13,20 @@ import {
 } from 'semantic-ui-react';
 import DropzoneInput from './DropzoneInput';
 import CropperInput from './CropperInput';
+import { uploadProfileImage } from '../../../../actions/userActions';
 
-const PhotosPage = () => {
+const PhotosPage = ({ uploadProfileImage, loading }) => {
   const [files, setFiles] = useState([]);
   const [image, setImage] = useState(null);
+
+  const handleUploadImage = async () => {
+    await uploadProfileImage(image, files[0].name);
+    handleCancelCrop();
+  };
+  const handleCancelCrop = () => {
+    setFiles([]);
+    setImage(null);
+  };
 
   useEffect(() => {
     return () => {
@@ -22,7 +35,7 @@ const PhotosPage = () => {
   }, [files]);
 
   return (
-    <Segment>
+    <Segment loading={loading}>
       <Header dividing size='large' content='Your Photos' />
       <Grid>
         <Grid.Row />
@@ -41,14 +54,29 @@ const PhotosPage = () => {
         <Grid.Column width={4}>
           <Header sub color='teal' content='Step 3 - Preview & Upload' />
           {files.length > 0 && (
-            <div
-              className='img-preview'
-              style={{
-                minHeight: '200px',
-                minWidth: '200px',
-                overflow: 'hidden'
-              }}
-            ></div>
+            <Fragment>
+              <div
+                className='img-preview'
+                style={{
+                  minHeight: '200px',
+                  minWidth: '200px',
+                  overflow: 'hidden'
+                }}
+              ></div>
+              <Button.Group>
+                <Button
+                  onClick={handleUploadImage}
+                  style={{ width: '100px' }}
+                  positive
+                  icon='check'
+                ></Button>
+                <Button
+                  onClick={handleCancelCrop}
+                  style={{ width: '100px' }}
+                  icon='close'
+                ></Button>
+              </Button.Group>
+            </Fragment>
           )}
         </Grid.Column>
       </Grid>
@@ -76,4 +104,31 @@ const PhotosPage = () => {
   );
 };
 
-export default PhotosPage;
+const mapState = state => ({
+  loading: state.async.loading,
+  auth: state.firebase.auth.isLoaded && state.firebase.auth,
+  profile: state.firebase.profile
+});
+
+const actions = {
+  uploadProfileImage
+};
+
+const query = ({ auth }) => {
+  return [
+    {
+      collection: 'users',
+      doc: auth.uid,
+      subcollections: [{ collection: 'photos' }],
+      storeAs: 'photos'
+    }
+  ];
+};
+
+export default compose(
+  connect(
+    mapState,
+    actions
+  ),
+  firestoreConnect(auth => query(auth))
+)(PhotosPage);
