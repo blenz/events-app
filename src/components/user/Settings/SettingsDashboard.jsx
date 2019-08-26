@@ -5,7 +5,7 @@ import SettingsNav from './SettingsNav';
 import { Route, Redirect, Switch } from 'react-router';
 import BasicPage from './BasicPage';
 import AboutPage from './AboutPage';
-import PhotosPage from './PhotosPage';
+import PhotosPage from './Photos/PhotosPage';
 import AccountPage from './AccountPage';
 import { updatePassword } from '../../../actions/authActions';
 import { updateProfile } from '../../../actions/userActions';
