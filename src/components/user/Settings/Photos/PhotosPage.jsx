@@ -5,10 +5,19 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { Segment, Header, Divider, Grid, Button } from 'semantic-ui-react';
 import DropzoneInput from './DropzoneInput';
 import CropperInput from './CropperInput';
-import { uploadProfileImage } from '../../../../actions/userActions';
+import {
+  uploadProfileImage,
+  deletePhoto
+} from '../../../../actions/userActions';
 import UserPhotos from './UserPhotos';
 
-const PhotosPage = ({ uploadProfileImage, loading, photos, profile }) => {
+const PhotosPage = ({
+  uploadProfileImage,
+  loading,
+  photos,
+  profile,
+  deletePhoto
+}) => {
   const [files, setFiles] = useState([]);
   const [image, setImage] = useState(null);
 
@@ -16,9 +25,14 @@ const PhotosPage = ({ uploadProfileImage, loading, photos, profile }) => {
     await uploadProfileImage(image, files[0].name);
     handleCancelCrop();
   };
+
   const handleCancelCrop = () => {
     setFiles([]);
     setImage(null);
+  };
+
+  const handleDeletePhoto = async photo => {
+    await deletePhoto(photo);
   };
 
   useEffect(() => {
@@ -73,7 +87,11 @@ const PhotosPage = ({ uploadProfileImage, loading, photos, profile }) => {
           )}
         </Grid.Column>
       </Grid>
-      <UserPhotos photos={photos} profile={profile} />
+      <UserPhotos
+        photos={photos}
+        profile={profile}
+        deletePhoto={handleDeletePhoto}
+      />
       <Divider />
     </Segment>
   );
@@ -87,7 +105,8 @@ const mapState = state => ({
 });
 
 const actions = {
-  uploadProfileImage
+  uploadProfileImage,
+  deletePhoto
 };
 
 const query = ({ auth }) => {
