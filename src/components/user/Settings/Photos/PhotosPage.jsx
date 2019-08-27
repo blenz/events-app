@@ -48,7 +48,7 @@ const PhotosPage = ({
   }, [files]);
 
   return (
-    <Segment loading={loading}>
+    <Segment>
       <Header dividing size='large' content='Your Photos' />
       <Grid>
         <Grid.Row />
@@ -82,6 +82,7 @@ const PhotosPage = ({
                   style={{ width: '100px' }}
                   positive
                   icon='check'
+                  loading={loading}
                 ></Button>
                 <Button
                   onClick={handleCancelCrop}
