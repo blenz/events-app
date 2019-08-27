@@ -7,7 +7,8 @@ import DropzoneInput from './DropzoneInput';
 import CropperInput from './CropperInput';
 import {
   uploadProfileImage,
-  deletePhoto
+  deletePhoto,
+  setMainPhoto
 } from '../../../../actions/userActions';
 import UserPhotos from './UserPhotos';
 
@@ -16,7 +17,8 @@ const PhotosPage = ({
   loading,
   photos,
   profile,
-  deletePhoto
+  deletePhoto,
+  setMainPhoto
 }) => {
   const [files, setFiles] = useState([]);
   const [image, setImage] = useState(null);
@@ -33,6 +35,10 @@ const PhotosPage = ({
 
   const handleDeletePhoto = async photo => {
     await deletePhoto(photo);
+  };
+
+  const handleSetMainPhoto = async photo => {
+    await setMainPhoto(photo);
   };
 
   useEffect(() => {
@@ -91,6 +97,7 @@ const PhotosPage = ({
         photos={photos}
         profile={profile}
         deletePhoto={handleDeletePhoto}
+        setMainPhoto={handleSetMainPhoto}
       />
       <Divider />
     </Segment>
@@ -106,7 +113,8 @@ const mapState = state => ({
 
 const actions = {
   uploadProfileImage,
-  deletePhoto
+  deletePhoto,
+  setMainPhoto
 };
 
 const query = ({ auth }) => {

@@ -85,3 +85,15 @@ export const deletePhoto = photo => {
     }
   };
 };
+
+export const setMainPhoto = photo => {
+  return async (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firebase = getFirebase();
+
+    try {
+      return firebase.updateProfile({ photoURL: photo.url });
+    } catch (error) {
+      toastr.error('Error', 'There was an error deleting your image');
+    }
+  };
+};

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Header, Card, Image, Button } from 'semantic-ui-react';
 
-const UserPhotos = ({ photos, profile, deletePhoto }) => {
+const UserPhotos = ({ photos, profile, deletePhoto, setMainPhoto }) => {
   return (
     <Fragment>
       <Header sub color='teal' content='All Photos' />
@@ -18,7 +18,11 @@ const UserPhotos = ({ photos, profile, deletePhoto }) => {
               <Card key={photo.id}>
                 <Image src={photo.url} />
                 <div className='ui two buttons'>
-                  <Button basic color='green'>
+                  <Button
+                    basic
+                    color='green'
+                    onClick={() => setMainPhoto(photo)}
+                  >
                     Main
                   </Button>
                   <Button
