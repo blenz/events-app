@@ -2,20 +2,13 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
-import {
-  Image,
-  Segment,
-  Header,
-  Divider,
-  Grid,
-  Button,
-  Card
-} from 'semantic-ui-react';
+import { Segment, Header, Divider, Grid, Button } from 'semantic-ui-react';
 import DropzoneInput from './DropzoneInput';
 import CropperInput from './CropperInput';
 import { uploadProfileImage } from '../../../../actions/userActions';
+import UserPhotos from './UserPhotos';
 
-const PhotosPage = ({ uploadProfileImage, loading }) => {
+const PhotosPage = ({ uploadProfileImage, loading, photos, profile }) => {
   const [files, setFiles] = useState([]);
   const [image, setImage] = useState(null);
 
@@ -80,26 +73,8 @@ const PhotosPage = ({ uploadProfileImage, loading }) => {
           )}
         </Grid.Column>
       </Grid>
-
+      <UserPhotos photos={photos} profile={profile} />
       <Divider />
-      <Header sub color='teal' content='All Photos' />
-
-      <Card.Group itemsPerRow={5}>
-        <Card>
-          <Image src='https://randomuser.me/api/portraits/men/20.jpg' />
-          <Button positive>Main Photo</Button>
-        </Card>
-
-        <Card>
-          <Image src='https://randomuser.me/api/portraits/men/20.jpg' />
-          <div className='ui two buttons'>
-            <Button basic color='green'>
-              Main
-            </Button>
-            <Button basic icon='trash' color='red' />
-          </div>
-        </Card>
-      </Card.Group>
     </Segment>
   );
 };
@@ -107,7 +82,8 @@ const PhotosPage = ({ uploadProfileImage, loading }) => {
 const mapState = state => ({
   loading: state.async.loading,
   auth: state.firebase.auth.isLoaded && state.firebase.auth,
-  profile: state.firebase.profile
+  profile: state.firebase.profile,
+  photos: state.firestore.ordered.photos
 });
 
 const actions = {
