@@ -8,7 +8,7 @@ const UserDetailedDescription = ({ profile }) => {
       <Segment loading={!profile.isLoaded}>
         <Grid columns={2}>
           <Grid.Column width={10}>
-            <Header icon='smile' content='About Display Name' />
+            <Header icon='user circle' content='About Me' />
             <p>
               I am a: <strong>{profile.occupation || 'Unknown'}</strong>
             </p>
@@ -25,7 +25,7 @@ const UserDetailedDescription = ({ profile }) => {
             <p>{profile.description}</p>
           </Grid.Column>
           <Grid.Column width={6}>
-            <Header icon='heart outline' content='Interests' />
+            <Header icon='heart' content='Interests' />
             {profile.interests && profile.interests.length !== 0 ? (
               <List>
                 {profile.interests.map((interest, i) => (
