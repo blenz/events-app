@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Grid } from 'semantic-ui-react';
-import { firebaseConnect } from 'react-redux-firebase';
+import { firestoreConnect } from 'react-redux-firebase';
 import UserDetailedHeader from './UserDetailedHeader';
 import UserDetailedDescription from './UserDetailedDescription';
 import UserDetailedPhotos from './UserDetailedPhotos';
@@ -25,12 +25,20 @@ class UserDetailedPage extends Component {
   }
 }
 
-const mapState = state => ({
-  profile: state.firebase.profile,
-  photos: state.firestore.ordered
-});
-
 export default compose(
-  connect(mapState),
-  firebaseConnect()
+  connect(state => ({
+    profile: state.firebase.profile,
+    auth: state.firebase.auth,
+    photos: state.firestore.ordered.photos
+  })),
+  firestoreConnect(({ auth }) => {
+    return [
+      {
+        collection: 'users',
+        doc: auth.uid,
+        subcollections: [{ collection: 'photos' }],
+        storeAs: 'photos'
+      }
+    ];
+  })
 )(UserDetailedPage);
