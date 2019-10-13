@@ -17,7 +17,6 @@ import SelectInput from '../../../common/form/SelectInput';
 import DateInput from '../../../common/form/DateInput';
 import TextArea from '../../../common/form/TextArea';
 import PlaceInput from '../../../common/form/PlaceInput';
-import cuid from 'cuid';
 
 const category = [
   { key: 'drinks', text: 'Drinks', value: 'drinks' },
@@ -48,26 +47,25 @@ class EventForm extends Component {
     venueLatLng: {}
   };
 
-  onFormSubmit = values => {
+  onFormSubmit = async values => {
     values.venueLatLng = this.state.venueLatLng;
 
-    // updating event
-    if (this.props.initialValues.id) {
-      this.props.updateEvent(values);
-      this.props.history.push(`/events/${this.props.initialValues.id}`);
-      return;
+    try {
+
+      // updating event
+      if (this.props.initialValues.id) {
+        this.props.updateEvent(values);
+        this.props.history.push(`/events/${this.props.initialValues.id}`);
+        return;
+      }
+
+      // creating a new event
+      let createdEvent = await this.props.createEvent(values);
+      this.props.history.push(`/events/${createdEvent.id}`);
+
+    } catch (e) {
+      console.log(e);
     }
-
-    // creating a new event
-    const newEvent = {
-      id: cuid(),
-      hostPhotoURL: '/assets/user.png',
-      hostedBy: 'Bib',
-      ...values
-    };
-
-    this.props.createEvent(newEvent);
-    this.props.history.push(`/events/${newEvent.id}`);
   };
 
   handleCitySelect = selectedCity => {
