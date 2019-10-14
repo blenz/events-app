@@ -15,7 +15,7 @@ const EventDetailedSidebar = ({ attendees }) => {
       >
         {attendees &&
           `${attendees.length} ${
-            attendees.length === 1 ? 'Person' : 'People'
+          attendees.length === 1 ? 'Person' : 'People'
           } Going`}
       </Segment>
       <Segment attached>
@@ -35,7 +35,7 @@ const EventDetailedSidebar = ({ attendees }) => {
                 <Item.Image size='tiny' src={attendee.photoURL} />
                 <Item.Content verticalAlign='middle'>
                   <Item.Header as='h3'>
-                    <a href='/'>{attendee.name}</a>
+                    <a href='/'>{attendee.displayName}</a>
                   </Item.Header>
                 </Item.Content>
               </Item>
