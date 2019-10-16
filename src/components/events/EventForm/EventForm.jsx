@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import { Segment, Form, Button, Grid, Header } from 'semantic-ui-react';
-import { createEvent, updateEvent } from '../../../actions/eventActions';
+import { createEvent, updateEvent, cancelToggle } from '../../../actions/eventActions';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import {
   composeValidators,
@@ -18,7 +18,6 @@ import DateInput from '../../../common/form/DateInput';
 import TextArea from '../../../common/form/TextArea';
 import PlaceInput from '../../../common/form/PlaceInput';
 import { withFirestore } from 'react-redux-firebase';
-import { toastr } from 'react-redux-toastr';
 
 const category = [
   { key: 'drinks', text: 'Drinks', value: 'drinks' },
@@ -51,17 +50,8 @@ class EventForm extends Component {
 
   async componentDidMount() {
 
-    const { firestore, match, history } = this.props;
-
-    let event = await firestore.get(`events/${match.params.id}`);
-
-    if (!event.exists) {
-      history.push('/events');
-      toastr.error('Event does not exist');
-    }
-    else {
-      this.setState({ venueLatLng: event.data().venueLatLng })
-    }
+    const { firestore, match } = this.props;
+    await firestore.setListener(`events/${match.params.id}`);
   }
 
   onFormSubmit = async values => {
@@ -71,6 +61,13 @@ class EventForm extends Component {
 
       // updating event
       if (this.props.initialValues.id) {
+
+        // check if we have venue coords
+        // if not, use the coords from our redux store
+        if (Object.keys(values.venueLatLng).length === 0) {
+          values.venueLatLng = this.props.event.venueLatLng;
+        }
+
         this.props.updateEvent(values);
         this.props.history.push(`/events/${this.props.initialValues.id}`);
         return;
@@ -100,13 +97,17 @@ class EventForm extends Component {
   };
 
   render() {
+
     const {
       history,
       initialValues,
       invalid,
       submitting,
-      pristine
+      pristine,
+      event,
+      cancelToggle
     } = this.props;
+
     return (
       <Grid>
         <Grid.Column width={10}>
@@ -179,6 +180,13 @@ class EventForm extends Component {
               >
                 Cancel
               </Button>
+              <Button
+                type='button'
+                color={event.cancelled ? 'green' : 'red'}
+                floated='right'
+                content={event.cancelled ? 'Reactivate event' : 'Cancel Event'}
+                onClick={() => cancelToggle(!event.cancelled, event.id)}
+              />
             </Form>
           </Segment>
         </Grid.Column>
@@ -200,7 +208,8 @@ const mapState = (state, ownProps) => {
   }
 
   return {
-    initialValues: event
+    initialValues: event,
+    event
   };
 };
 
@@ -208,6 +217,7 @@ export default withFirestore(connect(
   mapState,
   {
     createEvent,
-    updateEvent
+    updateEvent,
+    cancelToggle
   }
 )(reduxForm({ form: 'eventForm', validate, enableReinitialize: true })(EventForm)));

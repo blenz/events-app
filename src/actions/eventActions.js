@@ -3,9 +3,6 @@ import { fetchSampleData } from '../data/mockApi';
 import { toastr } from 'react-redux-toastr';
 import { createNewEvent } from '../common/util/helpers';
 
-export const CREATE_EVENT = 'CREATE_EVENT';
-export const UPDATE_EVENT = 'UPDATE_EVENT';
-export const DELETE_EVENT = 'DELETE_EVENT';
 export const FETCH_EVENTS = 'FETCH_EVENT';
 
 export const createEvent = (event) => {
@@ -49,19 +46,34 @@ export const updateEvent = (event) => {
 		const firestore = getFirestore();
 
 		try {
+
 			await firestore.update(`events/${event.id}`, event);
 			toastr.success('Success', 'Event updated');
+
 		} catch (error) {
 			toastr.error('Oops', 'Error updating event');
 		}
 	};
 };
 
-export const deleteEvent = (eventId) => {
-	return {
-		type: DELETE_EVENT,
-		payload: {
-			eventId
+export const cancelToggle = (cancelled, eventId) => {
+	return async (dispatch, getState, { getFirestore }) => {
+
+		const firestore = getFirestore();
+		const message = cancelled
+			? 'Are you sure you want to cancel the event?'
+			: 'This will reactivate the event, are you sure?';
+
+		try {
+
+			toastr.confirm(message, {
+				onOk: async () => {
+					await firestore.update(`events/${eventId}`, { cancelled: cancelled });
+				}
+			})
+
+		} catch (error) {
+			console.log(error);
 		}
 	};
 };

@@ -5,21 +5,20 @@ import EventListLoader from './EventListLoader';
 
 class EventList extends Component {
   render() {
-    const { events, deleteEvent, loading } = this.props;
+    const { events, loading } = this.props;
     return (
       <div>
         {loading ? (
           <EventListLoader />
         ) : (
-          events &&
-          events.map(event => (
-            <EventListItem
-              key={event.id}
-              event={event}
-              deleteEvent={deleteEvent}
-            />
-          ))
-        )}
+            events &&
+            events.map(event => (
+              <EventListItem
+                key={event.id}
+                event={event}
+              />
+            ))
+          )}
       </div>
     );
   }

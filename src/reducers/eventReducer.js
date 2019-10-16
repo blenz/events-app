@@ -67,17 +67,8 @@ import {
 
 const eventReducer = (state = [], { type, payload }) => {
   switch (type) {
-    case CREATE_EVENT:
-      return [...state, payload.event];
     case FETCH_EVENTS:
       return payload.events;
-    case UPDATE_EVENT:
-      return [
-        ...state.filter(event => event.id !== payload.event.id),
-        payload.event
-      ];
-    case DELETE_EVENT:
-      return [...state.filter(event => event.id !== payload.eventId)];
     default:
       return state;
   }
