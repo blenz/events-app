@@ -10,25 +10,23 @@ import { toastr } from 'react-redux-toastr';
 import { objectToArray } from '../../../common/util/helpers';
 
 const mapState = (state, ownProps) => {
-
   const eventId = ownProps.match.params.id;
 
   let event = {};
 
   const events = state.firestore.ordered.events;
   if (events && events.length > 0) {
-    event = events.filter(event =>
-      event.id === eventId
-    )[0] || {};
+    event = events.filter(event => event.id === eventId)[0] || {};
   }
 
-  return { event };
+  return {
+    event,
+    auth: state.firebase.auth
+  };
 };
 
 class EventDetailedPage extends Component {
-
   async componentDidMount() {
-
     const { firestore, match, history } = this.props;
 
     let event = await firestore.get(`events/${match.params.id}`);
@@ -40,14 +38,21 @@ class EventDetailedPage extends Component {
   }
 
   render() {
+    const { event, auth } = this.props;
 
-    const { event } = this.props;
-    const attendees = event && event.attendees && objectToArray(event.attendees);
+    const attendees =
+      event && event.attendees && objectToArray(event.attendees);
+    const isHost = event.hostUid === auth.uid;
+    const isGoing = attendees && attendees.some(a => a.id === auth.uid);
 
     return (
       <Grid>
         <Grid.Column width={10}>
-          <EventDetailedHeader event={event} />
+          <EventDetailedHeader
+            event={event}
+            isGoing={isGoing}
+            isHost={isHost}
+          />
           <EventDetailedInfo event={event} />
           <EventDetailedChat />
         </Grid.Column>
@@ -57,6 +62,6 @@ class EventDetailedPage extends Component {
       </Grid>
     );
   }
-};
+}
 
 export default withFirestore(connect(mapState)(EventDetailedPage));
