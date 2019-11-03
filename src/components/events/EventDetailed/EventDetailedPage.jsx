@@ -6,8 +6,13 @@ import EventDetailedInfo from './EventDetailedInfo';
 import EventDetailedChat from './EventDetailedChat';
 import EventDetailedSidebar from './EventDetailedSidebar';
 import { withFirestore } from 'react-redux-firebase';
-import { toastr } from 'react-redux-toastr';
 import { objectToArray } from '../../../common/util/helpers';
+import { goingToEvent, cancelGoingToEvent } from '../../../actions/userActions';
+
+const actions = {
+  goingToEvent,
+  cancelGoingToEvent
+}
 
 const mapState = (state, ownProps) => {
   const eventId = ownProps.match.params.id;
@@ -27,21 +32,24 @@ const mapState = (state, ownProps) => {
 
 class EventDetailedPage extends Component {
   async componentDidMount() {
-    const { firestore, match, history } = this.props;
 
-    let event = await firestore.get(`events/${match.params.id}`);
+    const { firestore, match } = this.props;
 
-    if (!event.exists) {
-      history.push('/events');
-      toastr.error('Event does not exist');
-    }
+    await firestore.setListener(`events/${match.params.id}`);
+  }
+
+  async componentWillUnmount() {
+    const { firestore, match } = this.props;
+
+    await firestore.unsetListener(`events/${match.params.id}`);
   }
 
   render() {
-    const { event, auth } = this.props;
+    const { event, auth, goingToEvent, cancelGoingToEvent } = this.props;
 
-    const attendees =
-      event && event.attendees && objectToArray(event.attendees);
+    const attendees = event
+      && event.attendees
+      && objectToArray(event.attendees);
     const isHost = event.hostUid === auth.uid;
     const isGoing = attendees && attendees.some(a => a.id === auth.uid);
 
@@ -52,6 +60,8 @@ class EventDetailedPage extends Component {
             event={event}
             isGoing={isGoing}
             isHost={isHost}
+            goingToEvent={goingToEvent}
+            cancelGoingToEvent={cancelGoingToEvent}
           />
           <EventDetailedInfo event={event} />
           <EventDetailedChat />
@@ -64,4 +74,4 @@ class EventDetailedPage extends Component {
   }
 }
 
-export default withFirestore(connect(mapState)(EventDetailedPage));
+export default withFirestore(connect(mapState, actions)(EventDetailedPage));

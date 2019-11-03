@@ -87,7 +87,7 @@ export const deletePhoto = photo => {
 };
 
 export const setMainPhoto = photo => {
-  return async (dispatch, getState, { getFirebase, getFirestore }) => {
+  return async (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
 
     try {
@@ -97,3 +97,67 @@ export const setMainPhoto = photo => {
     }
   };
 };
+
+export const goingToEvent = event => {
+  return async (dispatch, getState, { getFirebase, getFirestore }) => {
+
+    const firestore = getFirestore();
+    const firebase = getFirebase();
+    const user = firebase.auth().currentUser;
+    const profile = getState().firebase.profile;
+
+    const attendee = {
+      going: true,
+      joinDate: firestore.FieldValue.serverTimestamp(),
+      photoURL: profile.photoURL || '/assets/user.png',
+      displayName: profile.displayName,
+      host: false
+    }
+
+    try {
+
+      await firestore.update(`events/${event.id}`,
+        { [`attendees.${user.uid}`]: attendee }
+      );
+
+      await firestore.set(`event_attendee/${event.id}_${user.uid}`,
+        {
+          eventId: event.id,
+          userId: user.uid,
+          eventDate: event.date,
+          host: false
+        }
+      );
+
+      toastr.success('Success', 'You have signed up for the event!');
+
+    } catch (error) {
+      console.log(error);
+      toastr.error('Error', 'Error signing up to event');
+    }
+  };
+}
+
+export const cancelGoingToEvent = event => {
+  return async (dispatch, getState, { getFirebase, getFirestore }) => {
+
+    const firebase = getFirebase();
+    const firestore = getFirestore();
+    const user = firebase.auth().currentUser;
+
+    try {
+
+      await firestore.update(`events/${event.id}`,
+        { [`attendees.${user.uid}`]: firestore.FieldValue.delete() }
+      );
+
+      await firestore.delete(`event_attendee/${event.id}_${user.uid}`);
+
+      toastr.success('Success', 'You have been removed from the event');
+
+    } catch (error) {
+      console.log(error);
+      toastr.error('Error', 'Error cancelling from event');
+    }
+  };
+}
