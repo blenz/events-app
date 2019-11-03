@@ -1,16 +1,14 @@
-APP_DEV_NAME= events-app-dev
+APP_NAME= events-app
+
+APP_NAME_DEV= $(APP_NAME)-dev
 
 build-dev:
 	@docker build \
 		-f docker/dev/Dockerfile \
-		-t $(APP_DEV_NAME) .
+		-t $(APP_NAME_DEV) .
 
-run-dev:
+dev:
 	@docker run --rm -it \
-		--env-file .env \
 		-v `pwd`:/app \
 		-p 3000:3000 \
-		$(APP_DEV_NAME)
-
-stop-dev:
-	@docker stop $(APP_DEV_NAME)
+		$(APP_NAME_DEV)
