@@ -10,5 +10,5 @@ build-dev:
 dev:
 	@docker run --rm -it \
 		-v `pwd`:/app \
-		-p 3000:3000 \
+		-p 80:80 \
 		$(APP_NAME_DEV)
